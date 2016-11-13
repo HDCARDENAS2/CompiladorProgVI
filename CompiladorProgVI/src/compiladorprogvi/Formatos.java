@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package compiladorprogvi;
 
 /**
@@ -16,4 +12,9 @@ public class Formatos {
     public static String[] operadores = {"+","-","*","/","%","^"};
     public static String[] operadoresLogicos = {"<",">",">=","<=","=","AND","OR","NOT"};
     public static String[] asignacion = {":="};
+    
+    private final String mundo;
+    public Formatos(String mundo) {
+        this.mundo = mundo;
+    }
 }
