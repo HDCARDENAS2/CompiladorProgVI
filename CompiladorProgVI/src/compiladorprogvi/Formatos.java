@@ -17,4 +17,9 @@ public class Formatos {
     public Formatos(String mundo) {
         this.mundo = mundo;
     }
+
+    public Formatos() {
+    }
+    
+    
 }
