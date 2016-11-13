@@ -16,4 +16,9 @@ public class Formatos {
     public static String[] operadores = {"+","-","*","/","%","^"};
     public static String[] operadoresLogicos = {"<",">",">=","<=","=","AND","OR","NOT"};
     public static String[] asignacion = {":="};
+
+    public Formatos() {
+    }
+    
+    
 }
