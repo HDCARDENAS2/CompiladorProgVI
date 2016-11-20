@@ -26,7 +26,9 @@ public class ValidarFor {
                         salida=false;
                     } else{
                         if(obj_sem.valSemFor(vector1,objeto.getLinea()+"",variables)){
-                            
+                           salida=true; 
+                        }else{
+                            salida=false;
                         }
                     }                  
                } 
