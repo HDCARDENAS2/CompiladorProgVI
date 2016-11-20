@@ -75,7 +75,7 @@ public class Vista extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("class Numero begin \n   int a;\n   \n  void main() begin\n\n  out := \"ingrese numero\";\n  int a;\n  int b := sumaPares(a);\n  out \"La salida es \", b;\n\nend\n\n int sumaPares(int a) begin\n    int suma;\n    for( i := 1; i<=a; i++) begin\n       if(i %2 = 0 ) begin\n          suma := suma + i;\n      end \n   end\n end\nend");
+        jTextArea1.setText("class Numero begin \n   int a;\n   \n  void main() begin\n\n  out \"ingrese numero\";\n  in  a;\n  int b := sumaPares(a);\n  out \"La salida es \", b;\n\nend\n\n int sumaPares(int a) begin\n    int suma;\n    for( i := 1; i<=a; i++) begin\n       if(i %2 = 0 ) begin\n          suma := suma + i;\n      end \n   end\n end\nend");
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 490, 290));
@@ -86,6 +86,9 @@ public class Vista extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
       ArrayList<LineaCodigo> array = obj_func.TranFomarTextoaArray(jTextArea1.getText());
+      ValidarIf obj_validar_if=new ValidarIf();
+      ValidarFor obj_validar_for=new ValidarFor();
+     
       Clase clase_generada = obj_clase.GenerarClase(array,obj_func);
       if(clase_generada != null){
           
@@ -93,15 +96,37 @@ public class Vista extends javax.swing.JFrame {
               System.out.println(v.toString());
           }
           
+          boolean romper=false;
           for (Metodo m : clase_generada.getMetodos()) {
+              
               System.out.println(m.getTipo());
               System.out.println(m.getNombre());
               System.out.println(m.getParametro());
-              System.out.println(m.getLineas_codigo().toString());
-          }
+         
+              for (LineaCodigo array1 : m.getLineas_codigo()) {                  
+                  if (obj_func.EvaluarPalabraExiste(array1.getCodigo(),Formatos.ind_for)){
+                      if (!obj_validar_for.validarFor(array1,obj_func)){
+                          romper=true;
+                          break;                          
+                      }                      
+                  } 
+                  if(obj_func.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_if)){
+                      if(!obj_validar_if.validarIf(array1, obj_func)){
+                          romper=true;
+                          break;
+                      }                      
+                  }
+              }
+              if(romper){
+                  break;
+              }
+          }      
           
-          
+          if (romper){
+             MensajeCompilador(MensajesGlobal.getMensaje_global()); 
+          }else {
           MensajeCompilador("Correcto");
+          }
           //Evaluar metodos
       }else{
           MensajeCompilador(MensajesGlobal.getMensaje_global());
