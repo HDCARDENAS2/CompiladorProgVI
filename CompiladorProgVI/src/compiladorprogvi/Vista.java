@@ -86,6 +86,9 @@ public class Vista extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
       ArrayList<LineaCodigo> array = obj_func.TranFomarTextoaArray(jTextArea1.getText());
+      Operaciones ope=new Operaciones();
+      ValidarFor obj_validar=new ValidarFor();
+     
       Clase clase_generada = obj_clase.GenerarClase(array,obj_func);
       if(clase_generada != null){
           
@@ -93,15 +96,31 @@ public class Vista extends javax.swing.JFrame {
               System.out.println(v.toString());
           }
           
+          boolean romper=false;
           for (Metodo m : clase_generada.getMetodos()) {
+              
               System.out.println(m.getTipo());
               System.out.println(m.getNombre());
               System.out.println(m.getParametro());
-              System.out.println(m.getLineas_codigo().toString());
-          }
+         
+              for (LineaCodigo array1 : m.getLineas_codigo()) {                  
+                  if (obj_func.EvaluarPalabraExiste(array1.getCodigo(),Formatos.ind_for)){
+                      if (!obj_validar.validarFor(array1,obj_func)){
+                          romper=true;
+                          break;                          
+                      }                      
+                  }     
+              }
+              if(romper){
+                  break;
+              }
+          }      
           
-          
+          if (romper){
+             MensajeCompilador(MensajesGlobal.getMensaje_global()); 
+          }else {
           MensajeCompilador("Correcto");
+          }
           //Evaluar metodos
       }else{
           MensajeCompilador(MensajesGlobal.getMensaje_global());
