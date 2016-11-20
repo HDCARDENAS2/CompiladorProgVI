@@ -6,8 +6,8 @@ package compiladorprogvi;
  * @author Felipe
  */
 public class Formatos {
-    public static String indentificador = "[A-Z]";
-    public static String numero = "[0-9]";   
+    public static String indentificador = "[A-Z]+";
+    public static String numero = "[0-9]+";   
     public static String[] palabrasReservadas = {"INT","DECIMAL","CHAR","STRING","BOOLEAN","VOID","IF","FOR","OUT","ELSE","IN"};  
     public static String[] operadores = {"+","-","*","/","%","^"};
     public static String[] operadoresLogicos = {"<",">",">=","<=","=","AND","OR","NOT"};
@@ -21,10 +21,10 @@ public class Formatos {
     public static String[] tipo_variables = {"INT","DECIMAL","CHAR","STRING","BOOLEAN"};
     public static String[] ind_variable = {";"};
     public static String[] main = {"MAIN"};    
-    public static String[] ind_for={"FOR"};
     public static String[] borrado_for={"FOR","BEGIN"};
     public static String[] metodo_salida = {"OUT"};   
     public static String[] ind_if  = {"IF"};  
     public static String[] ind_for = {"FOR"};  
+    public static String[] ind_in = {"IN"};  
     
 }

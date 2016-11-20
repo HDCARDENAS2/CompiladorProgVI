@@ -102,7 +102,7 @@ public class LectorClase {
 
                                 } else if (barrido_lineas == false) {
                                     
-                                   Object[] resultado = obj_func.evaluar_metodo(linea, nr_linea);
+                                   Object[] resultado = obj_func.evaluar_metodo(linea, nr_linea,1);
 
                                    if((boolean) resultado[0] == true){
                                        fallo = true;
@@ -145,7 +145,7 @@ public class LectorClase {
                                                       if (obj_func.EvaluarPalabraExiste(linea_aux, Formatos.funcion_fin)) {
                                                           linea_max = lineaCodigo2.getLinea();
                                                       }else{
-                                                          Object[] resultado2 = obj_func.evaluar_metodo(linea_aux,nr_linea_aux);
+                                                          Object[] resultado2 = obj_func.evaluar_metodo(linea_aux,nr_linea_aux,0);
                                                           if((boolean) resultado2[0] == false && (int) resultado2[1] == 1){
                                                               break;
                                                           }else if((boolean) resultado2[0] == true){

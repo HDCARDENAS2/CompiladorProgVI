@@ -108,79 +108,84 @@ public class FuncionesGenerales {
     
      
      
-    public Object[] evaluar_metodo(String linea,String nr_linea) {
+    public Object[] evaluar_metodo(String linea,String nr_linea,int global) {
         
         Object[] vectores = new Object[2];
         
         vectores[0] = false;
         vectores[1] = 0;
         
+        String line_axx = "14";
+        
+        
         if (EvaluarPalabraExiste(linea, Formatos.tipo_funcion)) {
-            
+              imprimir_linea("x_1",nr_linea,line_axx);
+            //Validar metodo 
             if (EvaluarPalabraExiste(linea, Formatos.funcion_incio)) {
- 
-                if (EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)
-                    &&
-                    EvaluarPalabraExiste(linea, Formatos.ind_funcion_fin)) {
+                if (EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)  &&  EvaluarPalabraExiste(linea, Formatos.ind_funcion_fin)) {
                     vectores[1] = 1;
                 } else {
                     MensajesGlobal.setMensaje_global("La sobrecarga no esta bien declarada.", nr_linea); 
                     vectores[0] = true;
                 }
             } else {
-                
- 
+            //Validar variable
+            
+                imprimir_linea("x_2",nr_linea,line_axx);
                 boolean[] vectores2 = evaluar_variable( linea, nr_linea);
-                
                 if(!vectores2[0]){
+                    
+                   imprimir_linea("x_3",nr_linea,line_axx);
+                    
                    if(vectores2[1]){
-                          
-                        vectores[1] = 2;
-                        
+                      vectores[1] = 2;
                    }else{
-                        
                        MensajesGlobal.setMensaje_global("La funcion no esta bien declarada.", nr_linea); 
-                       vectores[0] = true;  
-                       
+                       vectores[0] = true;     
                    }  
                 }else{
                    vectores[0] = true; 
                 }
-                
             }
         }else{
-            
-            String line_axx = "6";
-            
-            System.out.println(linea); 
-        
-            imprimir_linea("1",nr_linea,line_axx);
-  
+
+             imprimir_linea("1",nr_linea,line_axx);
              if (EvaluarPalabraExiste(linea, Formatos.palabrasReservadas)) {
                  
-                  imprimir_linea("2",nr_linea,line_axx);
+                 imprimir_linea("2",nr_linea,line_axx);
                  
                  if(EvaluarPalabraExiste(linea,Formatos.metodo_salida)){
-  
-                      imprimir_linea("3",nr_linea,line_axx);
                      
+                      imprimir_linea("3",nr_linea,line_axx);
+                      
                       if(EvaluarPalabraExiste(linea, Formatos.asignacion)){
          
                            imprimir_linea("4",nr_linea,line_axx);
                            
                           if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
                              if(!salto_linea(linea)){
-                               MensajesGlobal.setMensaje_global("linea no reconosible 2.", nr_linea); 
+                               MensajesGlobal.setMensaje_global("Token mal escrito E1.", nr_linea); 
                                vectores[0] = true;
                             } 
+                          }else{
+                             if(EvaluarPalabraExiste(linea, Formatos.asignacion)){
+                                MensajesGlobal.setMensaje_global("Token mal escrito de variable de asignacion  E2.", nr_linea); 
+                                vectores[0] = true; 
+                             }
                           }
                           
-                            
                       }else{   
-                   
+            
                            if(!EvaluarPalabraExiste(linea,  Formatos.metodo_salida)){
-                              MensajesGlobal.setMensaje_global("linea no reconosible 3.", nr_linea); 
+                              MensajesGlobal.setMensaje_global("Token mal escrito OUT E3.", nr_linea); 
                               vectores[0] = true;
+                           }else{
+                               if( global == 1){
+                                  if (!EvaluarPalabraExiste(linea, Formatos.tipo_variables)) {     
+                                       MensajesGlobal.setMensaje_global("Variable global de tipo erroneo E4.", nr_linea); 
+                                       vectores[0] = true;         
+                                  }
+                               }
                            }
                       }
                       
@@ -197,18 +202,61 @@ public class FuncionesGenerales {
                            imprimir_linea("8",nr_linea,line_axx);
 
                            if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
-                              MensajesGlobal.setMensaje_global("linea no reconosible 1.", nr_linea); 
+                              MensajesGlobal.setMensaje_global("Token mal escrito IF E5.", nr_linea); 
                               vectores[0] = true; 
                            } 
+                           
+                        }else{
+                            
+                             imprimir_linea("10",nr_linea,line_axx);
+                            
+                             if( global == 1){
+                                 
+                                 imprimir_linea("11",nr_linea,line_axx);
+                                 
+                                   if (!EvaluarPalabraExiste(linea, Formatos.tipo_variables)) {     
+                                       MensajesGlobal.setMensaje_global("Variable global de tipo erroneo E6.", nr_linea); 
+                                       vectores[0] = true;         
+                                  }
+                                 
+                             }else{
+                                 
+                                 imprimir_linea("12",nr_linea,line_axx);
+                                 
+                                if(EvaluarPalabraExiste(linea, Formatos.ind_in)){
+
+                                    String variable = quitar_palabras(linea, null, new Object[]{Formatos.ind_in,Formatos.ind_variable});
+                                    variable = variable.trim();
+
+                                    if(variable.length() > 0){
+                                         if(!eva_ex_regular(variable,Formatos.indentificador)){
+                                           MensajesGlobal.setMensaje_global("El nombre de las variable debe ser alfabeticas E7.", nr_linea);
+                                           vectores[0] = true;
+                                         }     
+                                    }else{
+                                        MensajesGlobal.setMensaje_global("Variable de ingreso mal declarada E8", nr_linea);
+                                        vectores[0] = true; 
+                                    }
+                                }
+                                
+                             }
+
                         }
                         
                     }else{
+                        
+                         imprimir_linea("9",nr_linea,line_axx);
 
                         if(EvaluarPalabraExiste(linea, Formatos.ind_for)){
                              if(!EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
-                                MensajesGlobal.setMensaje_global("linea no reconosible 7.", nr_linea); 
+                                MensajesGlobal.setMensaje_global("Token mal escrito para el FOR E10.", nr_linea); 
                                 vectores[0] = true; 
                              }
+                        }else{
+                            if(EvaluarPalabraExiste(linea, Formatos.ind_variable)){
+                               MensajesGlobal.setMensaje_global("Token mal escrito para el FOR E11.", nr_linea); 
+                               vectores[0] = true; 
+                           }
                         }
                         
                     }
@@ -217,31 +265,21 @@ public class FuncionesGenerales {
              }else{
                    if(!EvaluarPalabraExiste(linea, Formatos.asignacion)){
                        if(!salto_linea(linea)){
-                         MensajesGlobal.setMensaje_global("Asignacion no reconosible 5.", nr_linea); 
+                         MensajesGlobal.setMensaje_global("Asignacion no correcta E12.", nr_linea); 
                          vectores[0] = true;
                        }  
                    }else{
                        if(EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)){
-                         MensajesGlobal.setMensaje_global("Asignacion no reconosible 6.", nr_linea); 
+                         MensajesGlobal.setMensaje_global("Asignacion no correcta E13.", nr_linea); 
                          vectores[0] = true;
                        }
                    }
-             }
-            
-            
-          //Pendiente aqui se validan las lineas
-         //  if(!salto_linea(linea)){
-            //  MensajesGlobal.setMensaje_global("linea no recono sible.", nr_linea); 
-            //  vectores[0] = true;   
-          // }
-                    
-            
+             }             
         }
         
         return vectores;
     }
-     
-  
+
       public boolean[] evaluar_variable(String linea,String nr_linea) {
         
         boolean[] vectores = new boolean[2];
@@ -250,11 +288,47 @@ public class FuncionesGenerales {
 
              if (EvaluarPalabraExiste(linea, Formatos.tipo_variables)) {       
                     if (EvaluarPalabraExiste(linea, Formatos.ind_variable)) {
-                       vectores[1] = true;
+                        
+                       String variable = quitar_palabras(linea, null, new Object[]{Formatos.tipo_variables,Formatos.ind_variable});
+                       variable = variable.trim(); 
+                        
+                       if(EvaluarPalabraExiste(linea, Formatos.asignacion)){
+    
+                             variable = variable.substring( 0, variable.indexOf(Formatos.asignacion[0]));
+                             variable = variable.replaceAll(" ", "");
+ 
+                             if(variable.length() > 0){
+                                if(eva_ex_regular(variable,Formatos.indentificador)){
+                                  vectores[1] = true; 
+                                }else{
+                                     MensajesGlobal.setMensaje_global("Solo se aceptan variable alfabeticas.", nr_linea);
+                                     vectores[0] = true;
+                                }     
+                             }else{
+                                MensajesGlobal.setMensaje_global("La variable esta mal declarada.", nr_linea);
+                                vectores[0] = true; 
+                             }
+                            
+                       }else{
+
+                             if(Split_string(variable," ").size() > 1){
+                                MensajesGlobal.setMensaje_global("La variable no esta bien declarada 2.", nr_linea);
+                                vectores[0] = true;
+                             }else{                            
+                                 if(eva_ex_regular(variable,Formatos.indentificador)){
+                                     vectores[1] = true; 
+                                 }else{
+                                     MensajesGlobal.setMensaje_global("Solo se aceptan variable alfabeticas.", nr_linea);
+                                     vectores[0] = true;
+                                 }
+                             } 
+                       } 
                     }else{
-                       MensajesGlobal.setMensaje_global("la variable no esta bien declarada ", nr_linea);
+                       MensajesGlobal.setMensaje_global("La variable no esta bien declarada.", nr_linea);
                        vectores[0] = true;
                    }
+             }else{
+                 System.err.println("XX");
              }
              
          return vectores;
