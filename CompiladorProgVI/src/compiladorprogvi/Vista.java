@@ -99,10 +99,8 @@ public class Vista extends javax.swing.JFrame {
           boolean romper=false;
           for (Metodo m : clase_generada.getMetodos()) {
               
-              System.out.println(m.getTipo());
-              System.out.println(m.getNombre());
-              System.out.println(m.getParametro());
-         
+              System.out.println(m.getTipo()+" "+m.getNombre()+" ("+m.getParametro()+")");
+
               for (LineaCodigo array1 : m.getLineas_codigo()) {                  
                   if (obj_func.EvaluarPalabraExiste(array1.getCodigo(),Formatos.ind_for)){
                       if (!obj_validar_for.validarFor(array1,obj_func)){

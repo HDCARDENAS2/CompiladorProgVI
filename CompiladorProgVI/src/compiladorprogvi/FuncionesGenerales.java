@@ -116,8 +116,7 @@ public class FuncionesGenerales {
         vectores[0] = false;
         vectores[1] = 0;
         
-        String line_axx = "14";
-        
+        String line_axx = "-1";
         
         if (EvaluarPalabraExiste(linea, Formatos.tipo_funcion)) {
               imprimir_linea("x_1",nr_linea,line_axx);
@@ -133,7 +132,8 @@ public class FuncionesGenerales {
             //Validar variable
             
                 imprimir_linea("x_2",nr_linea,line_axx);
-                boolean[] vectores2 = evaluar_variable( linea, nr_linea);
+                
+                boolean[] vectores2 = evaluar_variable( linea, nr_linea, 0);
                 if(!vectores2[0]){
                     
                    imprimir_linea("x_3",nr_linea,line_axx);
@@ -151,6 +151,7 @@ public class FuncionesGenerales {
         }else{
 
              imprimir_linea("1",nr_linea,line_axx);
+             
              if (EvaluarPalabraExiste(linea, Formatos.palabrasReservadas)) {
                  
                  imprimir_linea("2",nr_linea,line_axx);
@@ -204,7 +205,6 @@ public class FuncionesGenerales {
 
                            if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
                               MensajesGlobal.setMensaje_global("Token mal escrito IF E5.", nr_linea); 
-                              MensajesGlobal.setMensaje_global("linea no reconocible 1.", nr_linea); 
                               vectores[0] = true; 
                            } 
                            
@@ -284,20 +284,32 @@ public class FuncionesGenerales {
         return vectores;
     }
 
-      public boolean[] evaluar_variable(String linea,String nr_linea) {
+      public boolean[] evaluar_variable(String linea,String nr_linea,int no_validar_comas) {
         
         boolean[] vectores = new boolean[2];
         vectores[0] = false;
         vectores[1] = false;
 
-             if (EvaluarPalabraExiste(linea, Formatos.tipo_variables)) {       
-                    if (EvaluarPalabraExiste(linea, Formatos.ind_variable)) {
-                        
+        String line_axx = "-1";
+        
+        imprimir_linea("xx1_1",nr_linea,line_axx);
+
+             if (EvaluarPalabraExiste(linea, Formatos.tipo_variables)) { 
+                 
+                  imprimir_linea("xx1_2",nr_linea,line_axx);
+                 
+                 
+                    if (EvaluarPalabraExiste(linea, Formatos.ind_variable) || no_validar_comas == 1) {
+                                 
+                       imprimir_linea("xx1_3",nr_linea,line_axx);
+                       
                        String variable = quitar_palabras(linea, null, new Object[]{Formatos.tipo_variables,Formatos.ind_variable});
                        variable = variable.trim(); 
-                        
+
                        if(EvaluarPalabraExiste(linea, Formatos.asignacion)){
-    
+
+                             imprimir_linea("xx1_4",nr_linea,line_axx);
+                                                  
                              variable = variable.substring( 0, variable.indexOf(Formatos.asignacion[0]));
                              variable = variable.replaceAll(" ", "");
  
@@ -314,6 +326,8 @@ public class FuncionesGenerales {
                              }
                             
                        }else{
+                           
+                              imprimir_linea("xx1_5",nr_linea,line_axx);
 
                              if(Split_string(variable," ").size() > 1){
                                 MensajesGlobal.setMensaje_global("La variable no esta bien declarada 2.", nr_linea);
@@ -332,7 +346,10 @@ public class FuncionesGenerales {
                        vectores[0] = true;
                    }
              }else{
-                 System.err.println("XX");
+                if(no_validar_comas == 1){
+                   MensajesGlobal.setMensaje_global("El tipo de variable no es correcto.", nr_linea);
+                   vectores[0] = true;
+                }
              }
              
          return vectores;

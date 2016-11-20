@@ -118,7 +118,21 @@ public class LectorClase {
                                                       linea.indexOf(Formatos.ind_funcion_fin[0])
                                               );
                                               linea = linea.replace(parametros, "");
+                                              
+                                              boolean seguir = true;
 
+                                              if(!parametros.equals("")){
+                                                  
+                                                   boolean[] resultado_2 = obj_func.evaluar_variable(parametros, nr_linea,1);
+                                                   
+                                                   if(resultado_2[0]){
+                                                       seguir = false;
+                                                   }
+                                                  
+                                              }
+                                              
+                                             if(seguir){
+ 
                                               nombre_funcion = linea.substring(
                                                       0,
                                                       index_cortar_2 == -1 ? 0 : index_cortar_2
@@ -164,6 +178,13 @@ public class LectorClase {
                                                   MensajesGlobal.setMensaje_global("El metodo " + nombre_funcion + " ya existe ", nr_linea);
                                                   fallo = true;
                                               }
+                                                                                                                
+                                              }else{
+                                                  fallo = true;
+                                                  break;
+                                              }
+
+                                              
                                        }else if( (int) resultado[1] == 2){
 
                                             String temp = obj_func.quitar_palabras(linea, null, new Object[]{Formatos.tipo_variables, Formatos.ind_variable});
