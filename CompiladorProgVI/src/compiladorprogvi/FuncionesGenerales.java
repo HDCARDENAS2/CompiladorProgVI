@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -164,7 +165,7 @@ public class FuncionesGenerales {
                            
                           if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
                              if(!salto_linea(linea)){
-                               MensajesGlobal.setMensaje_global("Token mal escrito E1.", nr_linea); 
+                               MensajesGlobal.setMensaje_global("Token mal escrito E1.", nr_linea);
                                vectores[0] = true;
                             } 
                           }else{
@@ -270,8 +271,10 @@ public class FuncionesGenerales {
                        }  
                    }else{
                        if(EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)){
+                           
                          MensajesGlobal.setMensaje_global("Asignacion no correcta E13.", nr_linea); 
                          vectores[0] = true;
+                         
                        }
                    }
              }             
@@ -344,5 +347,20 @@ public class FuncionesGenerales {
               System.out.println(dato);
           }
       }
+      
+      public boolean validarParentesis(String cadena){
+          boolean salida=false;
+          int ultimo;
+          ultimo=cadena.length();
+          String funcion_inicio=cadena.charAt(0)+"".trim();                
+          String funcion_fin=cadena.substring(ultimo-1);
+          if((funcion_inicio.equals(Formatos.ind_funcion_inicio[0])) && (funcion_fin.equals(Formatos.ind_funcion_fin[0]))){
+              salida=true;
+          }          
+          return salida;
+      }
+      public static void imprimirCadena(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
     
 }
