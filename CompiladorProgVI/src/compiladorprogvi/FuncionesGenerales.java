@@ -118,7 +118,7 @@ public class FuncionesGenerales {
         if (EvaluarPalabraExiste(linea, Formatos.tipo_funcion)) {
             
             if (EvaluarPalabraExiste(linea, Formatos.funcion_incio)) {
-                
+ 
                 if (EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)
                     &&
                     EvaluarPalabraExiste(linea, Formatos.ind_funcion_fin)) {
@@ -129,14 +129,19 @@ public class FuncionesGenerales {
                 }
             } else {
                 
+ 
                 boolean[] vectores2 = evaluar_variable( linea, nr_linea);
                 
                 if(!vectores2[0]){
                    if(vectores2[1]){
-                       vectores[1] = 2;
+                          
+                        vectores[1] = 2;
+                        
                    }else{
+                        
                        MensajesGlobal.setMensaje_global("La funcion no esta bien declarada.", nr_linea); 
-                       vectores[0] = true; 
+                       vectores[0] = true;  
+                       
                    }  
                 }else{
                    vectores[0] = true; 
@@ -144,6 +149,86 @@ public class FuncionesGenerales {
                 
             }
         }else{
+            
+            String line_axx = "6";
+            
+            System.out.println(linea); 
+        
+            imprimir_linea("1",nr_linea,line_axx);
+  
+             if (EvaluarPalabraExiste(linea, Formatos.palabrasReservadas)) {
+                 
+                  imprimir_linea("2",nr_linea,line_axx);
+                 
+                 if(EvaluarPalabraExiste(linea,Formatos.metodo_salida)){
+  
+                      imprimir_linea("3",nr_linea,line_axx);
+                     
+                      if(EvaluarPalabraExiste(linea, Formatos.asignacion)){
+         
+                           imprimir_linea("4",nr_linea,line_axx);
+                           
+                          if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
+                             if(!salto_linea(linea)){
+                               MensajesGlobal.setMensaje_global("linea no reconosible 2.", nr_linea); 
+                               vectores[0] = true;
+                            } 
+                          }
+                          
+                            
+                      }else{   
+                   
+                           if(!EvaluarPalabraExiste(linea,  Formatos.metodo_salida)){
+                              MensajesGlobal.setMensaje_global("linea no reconosible 3.", nr_linea); 
+                              vectores[0] = true;
+                           }
+                      }
+                      
+                 }else{
+                     
+                   imprimir_linea("6",nr_linea,line_axx);
+                     
+                    if(!EvaluarPalabraExiste(linea, Formatos.asignacion)){
+                        
+                         imprimir_linea("7",nr_linea,line_axx);
+                        
+                        if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
+                            
+                           imprimir_linea("8",nr_linea,line_axx);
+
+                           if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
+                              MensajesGlobal.setMensaje_global("linea no reconosible 1.", nr_linea); 
+                              vectores[0] = true; 
+                           } 
+                        }
+                        
+                    }else{
+
+                        if(EvaluarPalabraExiste(linea, Formatos.ind_for)){
+                             if(!EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
+                                MensajesGlobal.setMensaje_global("linea no reconosible 7.", nr_linea); 
+                                vectores[0] = true; 
+                             }
+                        }
+                        
+                    }
+                 }
+                 
+             }else{
+                   if(!EvaluarPalabraExiste(linea, Formatos.asignacion)){
+                       if(!salto_linea(linea)){
+                         MensajesGlobal.setMensaje_global("Asignacion no reconosible 5.", nr_linea); 
+                         vectores[0] = true;
+                       }  
+                   }else{
+                       if(EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)){
+                         MensajesGlobal.setMensaje_global("Asignacion no reconosible 6.", nr_linea); 
+                         vectores[0] = true;
+                       }
+                   }
+             }
+            
+            
           //Pendiente aqui se validan las lineas
          //  if(!salto_linea(linea)){
             //  MensajesGlobal.setMensaje_global("linea no recono sible.", nr_linea); 
@@ -178,6 +263,12 @@ public class FuncionesGenerales {
       public boolean salto_linea(String texto){
           texto = texto.trim().replace(" ", "");
           return texto.length() == 0;
+      }
+      
+      public void imprimir_linea(String dato,String nr_linea,String linea){
+          if(nr_linea.equals(linea)){
+              System.out.println(dato);
+          }
       }
     
 }

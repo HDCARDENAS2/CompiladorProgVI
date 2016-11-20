@@ -3,8 +3,8 @@ class Numero begin
    
   void main() begin
 
-  out := "ingrese numero";
-  int a;
+  out "ingrese numero";
+  in  a;
   int b := sumaPares(a);
   out "La salida es ", b;
 

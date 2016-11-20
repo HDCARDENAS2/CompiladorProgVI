@@ -110,7 +110,7 @@
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="class Numero begin &#xa;   int a;&#xa;   &#xa;  void main() begin&#xa;&#xa;  out := &quot;ingrese numero&quot;;&#xa;  int a;&#xa;  int b := sumaPares(a);&#xa;  out &quot;La salida es &quot;, b;&#xa;&#xa;end&#xa;&#xa; int sumaPares(int a) begin&#xa;    int suma;&#xa;    for( i := 1; i&lt;=a; i++) begin&#xa;       if(i %2 = 0 ) begin&#xa;          suma := suma + i;&#xa;      end &#xa;   end&#xa; end&#xa;end"/>
+            <Property name="text" type="java.lang.String" value="class Numero begin &#xa;   int a;&#xa;   &#xa;  void main() begin&#xa;&#xa;  out &quot;ingrese numero&quot;;&#xa;  in  a;&#xa;  int b := sumaPares(a);&#xa;  out &quot;La salida es &quot;, b;&#xa;&#xa;end&#xa;&#xa; int sumaPares(int a) begin&#xa;    int suma;&#xa;    for( i := 1; i&lt;=a; i++) begin&#xa;       if(i %2 = 0 ) begin&#xa;          suma := suma + i;&#xa;      end &#xa;   end&#xa; end&#xa;end"/>
           </Properties>
         </Component>
       </SubComponents>
