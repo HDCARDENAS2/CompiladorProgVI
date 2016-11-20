@@ -1,0 +1,21 @@
+class Numero begin 
+   int a;
+   
+  void main() begin
+
+  out := "ingrese numero";
+  int a;
+  int b := sumaPares(a);
+  out "La salida es ", b;
+
+end
+
+ int sumaPares(int a) begin
+    int suma;
+    for( i := 1; i<=a; i++) begin
+       if(i %2 = 0 ) begin
+          suma := suma + i;
+      end 
+   end
+ end
+end
