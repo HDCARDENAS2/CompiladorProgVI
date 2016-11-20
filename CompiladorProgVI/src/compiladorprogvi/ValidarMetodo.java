@@ -114,20 +114,16 @@ public class ValidarMetodo {
     public boolean validarNombreVariable ( ArrayList<Variable> variableGlobal, ArrayList<Variable> variableLocal, String variableEvaluar, String num_linea ){
         boolean romper = false;
         for ( int i = 0; i < variableGlobal.size(); i++) {
-            if ( !(variableGlobal.get(i).equals(variableEvaluar)) ){
+            if ((variableGlobal.get(i).equals(variableEvaluar)) ){
                 romper = true;
                 break;
-            } else {
-                romper = false;
             }
         }
         
         for ( int i = 0; i < variableLocal.size(); i++) {
-            if ( !(variableLocal.get(i).equals(variableEvaluar)) ){
+            if ( (variableLocal.get(i).equals(variableEvaluar)) ){
                 romper = true;
                 break;
-            } else {
-                romper = false;
             }
         }
         
@@ -141,17 +137,16 @@ public class ValidarMetodo {
     
     public boolean validarNombreMetodo ( ArrayList<Metodo> metodoGlobal, String metodoEvaluar, String num_linea ){
         boolean romper = false;
+        
         for ( int i = 0; i < metodoGlobal.size(); i++) {
-            if ( !(metodoGlobal.get(i).equals(metodoEvaluar)) ){
+            if ((metodoGlobal.get(i).equals(metodoEvaluar)) ){
                 romper = true;
                 break;
-            } else {
-                romper = false;
             }
         }
         
-        if ( romper ){
-            MensajesGlobal.setMensaje_global("El metodo "+metodoEvaluar+" ya se encuentra declarado.", num_linea);
+        if ( !romper ){
+            MensajesGlobal.setMensaje_global("El metodo "+metodoEvaluar+" no se encuentra declarado.", num_linea);
             return false;
         } else {
             return true;
