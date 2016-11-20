@@ -22,6 +22,7 @@ public class Semantica {
         this.operacion = oper.trim();            
         this.palabras = this.operacion.split(" ");
         
+        
         if (this.palabras[1].equals(":=")){
             
             for (Variable variable : variables) {
