@@ -29,6 +29,7 @@ public class Semantica {
                 if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
                         salida = true;
+                        MensajesGlobal.setMensaje_global(null, null);
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
@@ -46,6 +47,7 @@ public class Semantica {
                     if(variable.getNombre().equals(this.palabras[2])){
                         if (variable.getTipo().equals("INT")){
                             salida = true;
+                            MensajesGlobal.setMensaje_global(null, null);
                         }else{
                             MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                             salida = false;
@@ -62,6 +64,7 @@ public class Semantica {
                      try {
                             int x = Integer.parseInt(this.palabras[2]);
                             salida = true;
+                            MensajesGlobal.setMensaje_global(null, null);
                          } 
                      catch (Exception e) {
                             MensajesGlobal.setMensaje_global("El parametro no es entero", linea);
@@ -81,6 +84,7 @@ public class Semantica {
                 if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
                         salida = true;
+                        MensajesGlobal.setMensaje_global(null, null);
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
@@ -93,30 +97,26 @@ public class Semantica {
             }
             
             if (salida){
-                for (Variable variable : variables) {
-                    if(variable.getNombre().equals(this.palabras[2])){
-                        if (variable.getTipo().equals("INT")){
-                            salida = true;
-                        }else{
-                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
-                            salida = false;
-                        }
-                        break;
-                    }else{
-                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
-                        salida = false;
-                    }
-                }
                 
-                if (salida == false){
-                     try {
-                            int x = Integer.parseInt(this.palabras[2]);
-                            salida = true;
-                         } 
-                     catch (Exception e) {
-                            MensajesGlobal.setMensaje_global("El parametro no es entero", linea);
+                if(isNumero(this.palabras[2])){
+                    salida = true;
+                }else{     
+                
+                    for (Variable variable : variables) {
+                        if(variable.getNombre().equals(this.palabras[2])){
+                            if (variable.getTipo().equals("INT")){
+                                salida = true;
+                                MensajesGlobal.setMensaje_global(null, null);
+                            }else{
+                                MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
+                                salida = false;
+                            }
+                            break;
+                        }else{
+                            MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
                             salida = false;
                         }
+                    }
                 }
             }
             
@@ -128,6 +128,7 @@ public class Semantica {
                 if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
                         salida = true;
+                        MensajesGlobal.setMensaje_global(null, null);
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
@@ -162,6 +163,7 @@ public class Semantica {
                 if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("BOOLEAN")){
                         salida = true;
+                        MensajesGlobal.setMensaje_global(null, null);
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es BOOLEANA.", linea);
                         salida = false;
@@ -233,6 +235,16 @@ public class Semantica {
         this.palabras = operacion.split(" ");
     
         return false;
+    }
+    
+    public boolean isNumero(String numero){
+        try {
+                int x = Integer.parseInt(numero);
+                return true;
+             } 
+         catch (Exception e) {
+                return false;
+            }
     }
     
 }

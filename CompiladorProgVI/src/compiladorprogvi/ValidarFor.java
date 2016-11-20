@@ -20,6 +20,9 @@ public class ValidarFor {
             ArrayList<String> vector=new ArrayList<String>();
             vector=obj.Split_string(resultado.substring(1,ultimo-1).trim(),";");
             salida=true;
+            
+            boolean nomensaje = true;
+            
             if (vector.size()==3){//VALIDA QUE EL FOR TENGA 3 PARAMETROS
                for (String vector1 : vector) {                    
                     if (vector1.equals(" ")||vector1.equals("")){
@@ -29,13 +32,15 @@ public class ValidarFor {
                            salida=true; 
                         }else{
                             salida=false;
+                            nomensaje = false;
+                            break;
                         }
                     }                  
                } 
             }else{                
                 salida=false;
             }
-            if (!salida) {
+            if (!salida && nomensaje) {
                 MensajesGlobal.setMensaje_global("Faltan parametros en For", objeto.getLinea()+"");
             }    
         }else{
