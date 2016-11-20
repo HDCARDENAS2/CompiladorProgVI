@@ -29,10 +29,12 @@ public class Semantica {
                     if (variable.getTipo().equals("INT")){
                         salida = true;
                     }else{
+                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
                     }
                     break;
                 }else{
+                    MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
                     salida = false;
                 }
             }
@@ -43,10 +45,12 @@ public class Semantica {
                         if (variable.getTipo().equals("INT")){
                             salida = true;
                         }else{
+                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                             salida = false;
                         }
                         break;
                     }else{
+                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
                         salida = false;
                     }
                 }
@@ -57,6 +61,7 @@ public class Semantica {
                             salida = true;
                          } 
                      catch (Exception e) {
+                            MensajesGlobal.setMensaje_global("El parametro no es entero", linea);
                             salida = false;
                         }
                 }
@@ -74,10 +79,12 @@ public class Semantica {
                     if (variable.getTipo().equals("INT")){
                         salida = true;
                     }else{
+                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
                     }
                     break;
                 }else{
+                    MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
                     salida = false;
                 }
             }
@@ -88,10 +95,12 @@ public class Semantica {
                         if (variable.getTipo().equals("INT")){
                             salida = true;
                         }else{
+                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                             salida = false;
                         }
                         break;
                     }else{
+                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
                         salida = false;
                     }
                 }
@@ -102,6 +111,7 @@ public class Semantica {
                             salida = true;
                          } 
                      catch (Exception e) {
+                            MensajesGlobal.setMensaje_global("El parametro no es entero", linea);
                             salida = false;
                         }
                 }
@@ -116,19 +126,32 @@ public class Semantica {
                     if (variable.getTipo().equals("INT")){
                         salida = true;
                     }else{
+                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
                     }
                     break;
                 }else{
+                    MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
                     salida = false;
                 }
             }
             
         }else{
+            MensajesGlobal.setMensaje_global("El operador "+this.palabras[1]+" no es válido.", linea);
             salida = false;
         }
         
         return salida;
+    }
+    
+    public boolean valSemIf(){
+        
+        boolean salida = false;
+        
+        
+        
+        return salida;
+        
     }
     
     public boolean validarSemantica(String opera, String linea, ArrayList<Variable> variables){
