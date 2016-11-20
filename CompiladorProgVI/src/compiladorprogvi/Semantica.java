@@ -16,7 +16,7 @@ public class Semantica {
     }
     
     public boolean valSemFor(String oper, String linea, ArrayList<Variable> variables){
-        
+    
         boolean salida = false;
         
         this.operacion = oper.trim();            
