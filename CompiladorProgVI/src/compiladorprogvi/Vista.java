@@ -94,7 +94,12 @@ public class Vista extends javax.swing.JFrame {
           
           for (Variable v : clase_generada.getVariables()) {
               System.out.println(v.toString());
-          }
+          }          
+          
+          
+          ArrayList<Variable> variables= new ArrayList<>();
+          variables.add(new Variable("INT","I"));
+          variables.add(new Variable("INT","A"));
           
           boolean romper=false;
           for (Metodo m : clase_generada.getMetodos()) {
@@ -102,10 +107,10 @@ public class Vista extends javax.swing.JFrame {
               System.out.println(m.getTipo());
               System.out.println(m.getNombre());
               System.out.println(m.getParametro());
-         
+              
               for (LineaCodigo array1 : m.getLineas_codigo()) {                  
                   if (obj_func.EvaluarPalabraExiste(array1.getCodigo(),Formatos.ind_for)){
-                      if (!obj_validar_for.validarFor(array1,obj_func)){
+                      if (!obj_validar_for.validarFor(array1,obj_func,variables)){
                           romper=true;
                           break;                          
                       }                      

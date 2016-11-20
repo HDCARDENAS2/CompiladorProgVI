@@ -8,8 +8,9 @@ import java.util.ArrayList;
  */
 public class ValidarFor {
     
-    public boolean validarFor(LineaCodigo objeto,FuncionesGenerales obj){
+    public boolean validarFor(LineaCodigo objeto,FuncionesGenerales obj,ArrayList<Variable> variables){
         int ultimo;
+        Semantica obj_sem=new Semantica();
         boolean salida=false;
         //Operaciones.imprimirCadena(obj.quitar_palabras(objeto.getCodigo(), null, new Object[]{Formatos.borrado_for}));
         String resultado=(obj.quitar_palabras(objeto.getCodigo(), null, new Object[]{Formatos.borrado_for}));
@@ -20,11 +21,14 @@ public class ValidarFor {
             vector=obj.Split_string(resultado.substring(1,ultimo-1).trim(),";");
             salida=true;
             if (vector.size()==3){//VALIDA QUE EL FOR TENGA 3 PARAMETROS
-               for (String vector1 : vector) { 
-                   
+               for (String vector1 : vector) {                    
                     if (vector1.equals(" ")||vector1.equals("")){
                         salida=false;
-                    }                   
+                    } else{
+                        if(obj_sem.valSemFor(vector1,objeto.getLinea()+"",variables)){
+                            
+                        }
+                    }                  
                } 
             }else{                
                 salida=false;
