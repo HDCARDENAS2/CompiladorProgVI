@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -170,7 +171,7 @@ public class FuncionesGenerales {
                            
                           if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
                              if(!salto_linea(linea)){
-                               MensajesGlobal.setMensaje_global("linea no reconosible 2.", nr_linea); 
+                               MensajesGlobal.setMensaje_global("linea no reconocible 2.", nr_linea); 
                                vectores[0] = true;
                             } 
                           }
@@ -179,7 +180,7 @@ public class FuncionesGenerales {
                       }else{   
                    
                            if(!EvaluarPalabraExiste(linea,  Formatos.metodo_salida)){
-                              MensajesGlobal.setMensaje_global("linea no reconosible 3.", nr_linea); 
+                              MensajesGlobal.setMensaje_global("linea no reconocible 3.", nr_linea); 
                               vectores[0] = true;
                            }
                       }
@@ -197,7 +198,7 @@ public class FuncionesGenerales {
                            imprimir_linea("8",nr_linea,line_axx);
 
                            if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
-                              MensajesGlobal.setMensaje_global("linea no reconosible 1.", nr_linea); 
+                              MensajesGlobal.setMensaje_global("linea no reconocible 1.", nr_linea); 
                               vectores[0] = true; 
                            } 
                         }
@@ -206,7 +207,7 @@ public class FuncionesGenerales {
 
                         if(EvaluarPalabraExiste(linea, Formatos.ind_for)){
                              if(!EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
-                                MensajesGlobal.setMensaje_global("linea no reconosible 7.", nr_linea); 
+                                MensajesGlobal.setMensaje_global("linea no reconocible 7.", nr_linea); 
                                 vectores[0] = true; 
                              }
                         }
@@ -217,12 +218,12 @@ public class FuncionesGenerales {
              }else{
                    if(!EvaluarPalabraExiste(linea, Formatos.asignacion)){
                        if(!salto_linea(linea)){
-                         MensajesGlobal.setMensaje_global("Asignacion no reconosible 5.", nr_linea); 
+                         MensajesGlobal.setMensaje_global("Asignacion no reconocible 5.", nr_linea); 
                          vectores[0] = true;
                        }  
                    }else{
                        if(EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)){
-                         MensajesGlobal.setMensaje_global("Asignacion no reconosible 6.", nr_linea); 
+                         MensajesGlobal.setMensaje_global("Asignacion no reconocible 6.", nr_linea); 
                          vectores[0] = true;
                        }
                    }
@@ -270,5 +271,20 @@ public class FuncionesGenerales {
               System.out.println(dato);
           }
       }
+      
+      public boolean validarParentesis(String cadena){
+          boolean salida=false;
+          int ultimo;
+          ultimo=cadena.length();
+          String funcion_inicio=cadena.charAt(0)+"".trim();                
+          String funcion_fin=cadena.substring(ultimo-1);
+          if((funcion_inicio.equals(Formatos.ind_funcion_inicio[0])) && (funcion_fin.equals(Formatos.ind_funcion_fin[0]))){
+              salida=true;
+          }          
+          return salida;
+      }
+      public static void imprimirCadena(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje);
+    }
     
 }
