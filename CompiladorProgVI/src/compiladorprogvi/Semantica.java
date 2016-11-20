@@ -25,7 +25,7 @@ public class Semantica {
         if (this.palabras[1].equals(":=")){
             
             for (Variable variable : variables) {
-                if(variable.equals(this.palabras[0])){
+                if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
                         salida = true;
                     }else{
@@ -36,12 +36,13 @@ public class Semantica {
                 }else{
                     MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
                     salida = false;
+                    break;
                 }
             }
             
             if (salida){
                 for (Variable variable : variables) {
-                    if(variable.equals(this.palabras[2])){
+                    if(variable.getNombre().equals(this.palabras[2])){
                         if (variable.getTipo().equals("INT")){
                             salida = true;
                         }else{
@@ -52,6 +53,7 @@ public class Semantica {
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
                         salida = false;
+                        break;
                     }
                 }
                 
@@ -75,7 +77,7 @@ public class Semantica {
                  ){
             
             for (Variable variable : variables) {
-                if(variable.equals(this.palabras[0])){
+                if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
                         salida = true;
                     }else{
@@ -91,7 +93,7 @@ public class Semantica {
             
             if (salida){
                 for (Variable variable : variables) {
-                    if(variable.equals(this.palabras[2])){
+                    if(variable.getNombre().equals(this.palabras[2])){
                         if (variable.getTipo().equals("INT")){
                             salida = true;
                         }else{
@@ -122,7 +124,7 @@ public class Semantica {
                  ){
             
             for (Variable variable : variables) {
-                if(variable.equals(this.palabras[0])){
+                if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
                         salida = true;
                     }else{
@@ -144,11 +146,80 @@ public class Semantica {
         return salida;
     }
     
-    public boolean valSemIf(){
+    public boolean valSemIf(String oper, String linea, ArrayList<Variable> variables){
         
         boolean salida = false;
+        int posicion = 0;
+        String opera;
         
+        this.operacion = oper.trim();            
+        this.palabras = this.operacion.split(" ");
         
+        if (this.palabras.length == 1){
+            
+            for (Variable variable : variables) {
+                if(variable.getNombre().equals(this.palabras[0])){
+                    if (variable.getTipo().equals("BOOLEAN")){
+                        salida = true;
+                    }else{
+                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es BOOLEANA.", linea);
+                        salida = false;
+                    }
+                    break;
+                }else{
+                    MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
+                    salida = false;
+                }
+            }
+            
+        }else if (this.palabras.length == 2){
+            
+            if (this.palabras[0].equals("NOT")){
+                for (Variable variable : variables) {
+                    if(variable.getNombre().equals(this.palabras[1])){
+                        if (variable.getTipo().equals("BOOLEAN")){
+                            salida = true;
+                        }else{
+                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es BOOLEANA.", linea);
+                            salida = false;
+                        }
+                        break;
+                    }else{
+                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
+                        salida = false;
+                    }
+                }
+            }else{
+                MensajesGlobal.setMensaje_global("La palabra "+this.palabras[0]+" no es una negación NOT.", linea);
+                salida = false;
+            }
+            
+        }else{
+            int pos = -1;
+            for (String palabra : this.palabras) {
+                pos ++;
+                if (palabra.equals("=")){                    
+                    posicion = pos;
+                    salida = true;
+                    break;
+                }else if (palabra.equals("NOT=")){
+                    posicion = pos;
+                    salida = true;
+                    break;
+                }else{
+                    MensajesGlobal.setMensaje_global("no tiene un operador de comparación como '=' o 'NOT='", linea);
+                    salida = false;
+                }
+            }
+            
+            if (salida){
+                if (this.palabras[0].equals("NOT")){
+                    for (int i = 2; i < (posicion - 1); i ++){
+                        
+                    }
+                }
+            }
+        }
         
         return salida;
         
