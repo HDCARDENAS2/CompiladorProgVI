@@ -204,6 +204,7 @@ public class FuncionesGenerales {
 
                            if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
                               MensajesGlobal.setMensaje_global("Token mal escrito IF E5.", nr_linea); 
+                              MensajesGlobal.setMensaje_global("linea no reconocible 1.", nr_linea); 
                               vectores[0] = true; 
                            } 
                            

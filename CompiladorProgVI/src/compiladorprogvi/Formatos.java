@@ -20,7 +20,7 @@ public class Formatos {
     public static String[] ind_funcion_fin= {")"};
     public static String[] tipo_variables = {"INT","DECIMAL","CHAR","STRING","BOOLEAN"};
     public static String[] ind_variable = {";"};
-    public static String[] main = {"MAIN"};    
+    public static String[] main = {"MAIN"}; 
     public static String[] ind_for={"FOR"};
     public static String[] borrado_for={"FOR","BEGIN"};
     public static String[] borrado_if={"IF","BEGIN"};
