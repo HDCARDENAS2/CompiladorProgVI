@@ -182,10 +182,12 @@ public class Semantica {
                 if (palabra.equals("=")){                    
                     posicion = pos;
                     salida = true;
+                    MensajesGlobal.setMensaje_global(null, null);
                     break;
                 }else if (palabra.equals("NOT=")){
                     posicion = pos;
                     salida = true;
+                    MensajesGlobal.setMensaje_global(null, null);
                     break;
                 }else{
                     MensajesGlobal.setMensaje_global("no tiene un operador de comparación como '=' o 'NOT='", linea);
@@ -194,7 +196,7 @@ public class Semantica {
             }
             
             if (salida){
-                for (int i = 0; i < (posicion - 1); i ++){
+                for (int i = 0; i < posicion; i ++){
                     
                     if (i == 0) {
                         opera = this.palabras[i];
@@ -203,19 +205,25 @@ public class Semantica {
                     }
                 }
                 
-                valOperaNum(opera,linea,variables);
+                if (valOperaNum(opera,linea,variables)){
                 
-                for (int i = (posicion + 1); i < this.palabras.length; i ++){
-                    
-                    if (i == 0) {
-                        opera = this.palabras[i];
-                    }else{
-                        opera = opera+" "+this.palabras[i];
+                    for (int i = (posicion + 1); i < this.palabras.length; i ++){
+
+                        if (i == (posicion + 1)) {
+                            opera = this.palabras[i];
+                        }else{
+                            opera = opera+" "+this.palabras[i];
+                        }
                     }
+                    
+                    if (valOperaNum(opera,linea,variables)){
+                        salida = true;
+                    }else{
+                        salida = false;
+                    }
+                }else{
+                    salida = false;
                 }
-                
-                valOperaNum(opera,linea,variables);
-                
             }
         }
         
@@ -226,12 +234,13 @@ public class Semantica {
     public boolean valOperaNum(String oper, String linea, ArrayList<Variable> variables){
         boolean salida = false;
         int pos = -1;
+        String[] pal;  
         
         this.operacion = oper.trim();            
-        this.palabras = this.operacion.split(" ");
+        pal = this.operacion.split(" ");
         
         if ((this.palabras.length % 2) != 0){            
-            for (String palabra : this.palabras) {
+            for (String palabra : pal) {
                 pos ++;
                 if ((pos % 2) == 0){
                     if (isNumero(palabra)){
@@ -243,12 +252,13 @@ public class Semantica {
                                 if (variable.getTipo().equals("INT") || variable.getTipo().equals("DECIMAL")){
                                     salida = true;
                                     MensajesGlobal.setMensaje_global(null, null);
+                                    break;
                                 }else{
                                     MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es numerica.", linea);
                                     salida = false;
                                 }
                             }else{
-                                MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
+                                MensajesGlobal.setMensaje_global("La variable "+palabra+" no está definida.", linea);
                                 salida = false;
                                 break;
                             }
@@ -259,16 +269,16 @@ public class Semantica {
                             if (operador.equals(palabra)){
                                 salida = true;
                                 MensajesGlobal.setMensaje_global(null, null);
+                                break;
                             }else{
                                 MensajesGlobal.setMensaje_global("El operador "+palabra+" no es valido.", linea);
                                 salida = false;
-                                break;
                             }
                         }
                 }                
             }
         }else{
-            MensajesGlobal.setMensaje_global("la operación esta incompleta", linea);
+            MensajesGlobal.setMensaje_global("la operación es incorrecta", linea);
             salida = false;
         }
         return salida;
