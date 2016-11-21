@@ -275,6 +275,9 @@ public class Semantica {
                                 salida = false;
                             }
                         }
+                    if (salida == false){
+                        break;
+                    }
                 }                
             }
         }else{
