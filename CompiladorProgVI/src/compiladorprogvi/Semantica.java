@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class Semantica {
 
     private String operacion;
-    private String[] palabras;
+    private String[] palabras;    
     
     public Semantica() {
     }
@@ -152,7 +152,7 @@ public class Semantica {
         
         boolean salida = false;
         int posicion = 0;
-        String opera;
+        String opera = "";
         
         this.operacion = oper.trim();            
         this.palabras = this.operacion.split(" ");
@@ -175,28 +175,6 @@ public class Semantica {
                 }
             }
             
-        }else if (this.palabras.length == 2){
-            
-            if (this.palabras[0].equals("NOT")){
-                for (Variable variable : variables) {
-                    if(variable.getNombre().equals(this.palabras[1])){
-                        if (variable.getTipo().equals("BOOLEAN")){
-                            salida = true;
-                        }else{
-                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es BOOLEANA.", linea);
-                            salida = false;
-                        }
-                        break;
-                    }else{
-                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
-                        salida = false;
-                    }
-                }
-            }else{
-                MensajesGlobal.setMensaje_global("La palabra "+this.palabras[0]+" no es una negación NOT.", linea);
-                salida = false;
-            }
-            
         }else{
             int pos = -1;
             for (String palabra : this.palabras) {
@@ -216,11 +194,28 @@ public class Semantica {
             }
             
             if (salida){
-                if (this.palabras[0].equals("NOT")){
-                    for (int i = 2; i < (posicion - 1); i ++){
-                        
+                for (int i = 0; i < (posicion - 1); i ++){
+                    
+                    if (i == 0) {
+                        opera = this.palabras[i];
+                    }else{
+                        opera = opera+" "+this.palabras[i];
                     }
                 }
+                
+                valOperaNum(opera,linea,variables);
+                
+                for (int i = (posicion + 1); i < this.palabras.length; i ++){
+                    
+                    if (i == 0) {
+                        opera = this.palabras[i];
+                    }else{
+                        opera = opera+" "+this.palabras[i];
+                    }
+                }
+                
+                valOperaNum(opera,linea,variables);
+                
             }
         }
         
@@ -228,13 +223,55 @@ public class Semantica {
         
     }
     
-    public boolean validarSemantica(String opera, String linea, ArrayList<Variable> variables){
+    public boolean valOperaNum(String oper, String linea, ArrayList<Variable> variables){
+        boolean salida = false;
+        int pos = -1;
         
-        this.operacion = opera.trim();
+        this.operacion = oper.trim();            
+        this.palabras = this.operacion.split(" ");
         
-        this.palabras = operacion.split(" ");
-    
-        return false;
+        if ((this.palabras.length % 2) != 0){            
+            for (String palabra : this.palabras) {
+                pos ++;
+                if ((pos % 2) == 0){
+                    if (isNumero(palabra)){
+                        MensajesGlobal.setMensaje_global(null, null);
+                        salida = true;
+                    }else{
+                        for (Variable variable : variables) {
+                            if(variable.getNombre().equals(palabra)){
+                                if (variable.getTipo().equals("INT") || variable.getTipo().equals("DECIMAL")){
+                                    salida = true;
+                                    MensajesGlobal.setMensaje_global(null, null);
+                                }else{
+                                    MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es numerica.", linea);
+                                    salida = false;
+                                }
+                            }else{
+                                MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
+                                salida = false;
+                                break;
+                            }
+                        }
+                    }
+                }else{
+                    for (String operador: Formatos.operadores){
+                            if (operador.equals(palabra)){
+                                salida = true;
+                                MensajesGlobal.setMensaje_global(null, null);
+                            }else{
+                                MensajesGlobal.setMensaje_global("El operador "+palabra+" no es valido.", linea);
+                                salida = false;
+                                break;
+                            }
+                        }
+                }                
+            }
+        }else{
+            MensajesGlobal.setMensaje_global("la operación esta incompleta", linea);
+            salida = false;
+        }
+        return salida;
     }
     
     public boolean isNumero(String numero){
