@@ -178,15 +178,36 @@ public class FuncionesGenerales {
                           
                       }else{   
             
+                           imprimir_linea("3.1",nr_linea,line_axx);
+                            
                            if(!EvaluarPalabraExiste(linea,  Formatos.metodo_salida)){
                               MensajesGlobal.setMensaje_global("Token mal escrito OUT E3.", nr_linea); 
                               vectores[0] = true;
+                            
+                              imprimir_linea("3.2",nr_linea,line_axx);
+                              
                            }else{
+                               
+                               imprimir_linea("3.3",nr_linea,line_axx);
+                               
                                if( global == 1){
                                   if (!EvaluarPalabraExiste(linea, Formatos.tipo_variables)) {     
                                        MensajesGlobal.setMensaje_global("Variable global de tipo erroneo E4.", nr_linea); 
                                        vectores[0] = true;         
                                   }
+                               }else{
+                                   
+                                   int nr_vecer = nr_veces_caracter(linea,'"');
+                           
+                                   if(! (nr_vecer%2 == 0 ) ){
+                                       MensajesGlobal.setMensaje_global("Expresion incompleta E4.1.", nr_linea); 
+                                       vectores[0] = true;   
+                                   }else{
+                                     if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
+                                        MensajesGlobal.setMensaje_global("Expresion incompleta E4.2.", nr_linea); 
+                                        vectores[0] = true;   
+                                    }
+                                   }
                                }
                            }
                       }
@@ -204,9 +225,9 @@ public class FuncionesGenerales {
                            imprimir_linea("8",nr_linea,line_axx);
 
                            if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
-                              MensajesGlobal.setMensaje_global("Token mal escrito IF E5.", nr_linea); 
+                              MensajesGlobal.setMensaje_global("Expresion incompleta E5.", nr_linea); 
                               vectores[0] = true; 
-                           } 
+                           }
                            
                         }else{
                             
@@ -265,17 +286,33 @@ public class FuncionesGenerales {
                  }
                  
              }else{
+                 
+                   imprimir_linea("10",nr_linea,line_axx);
+                 
                    if(!EvaluarPalabraExiste(linea, Formatos.asignacion)){
+                       
+                       imprimir_linea("11",nr_linea,line_axx);
+                       
                        if(!salto_linea(linea)){
-                         MensajesGlobal.setMensaje_global("Asignacion no correcta E12.", nr_linea); 
+                         MensajesGlobal.setMensaje_global("Asignacion no reconocidad E12.", nr_linea); 
                          vectores[0] = true;
                        }  
                    }else{
+                       
+                       imprimir_linea("12",nr_linea,line_axx);
+                       
                        if(EvaluarPalabraExiste(linea, Formatos.ind_funcion_inicio)){
                            
                          MensajesGlobal.setMensaje_global("Asignacion no correcta E13.", nr_linea); 
                          vectores[0] = true;
                          
+                       }else{
+                           
+                           if(!EvaluarPalabraExiste(linea, Formatos.ind_variable)){
+                               MensajesGlobal.setMensaje_global("Expresion incompleta E14.", nr_linea); 
+                               vectores[0] = true;      
+                           }
+                           
                        }
                    }
              }             
@@ -380,5 +417,20 @@ public class FuncionesGenerales {
       public static void imprimirCadena(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
     }
+      
+      
+     public int nr_veces_caracter(String pr,char caracter){
+
+        int veces=0;
+        char []caracteres=pr.toCharArray();
+        for(int i=0;i<=caracteres.length-1;i++){
+                if(caracter ==caracteres[i]){
+                        veces++;
+                }
+
+        }  
+       return veces;
+     }
+  
     
 }

@@ -147,29 +147,37 @@ public class LectorClase {
 
                                                   tipo_funcion = obj_func.RetornarPalabraExiste(linea, Formatos.tipo_funcion);
                                                   
-                                                  barrido_lineas=true;
-                                            
-                                                  for (LineaCodigo lineaCodigo2 : array_2) {
+                                                  if( tipo_funcion == null || tipo_funcion == ""){
                                                       
-                                                    if(lineaCodigo2.getLinea() > lineaCodigo.getLinea()){
-      
-                                                      String linea_aux    = lineaCodigo2.getCodigo();
-                                                      String nr_linea_aux = lineaCodigo2.getLinea() + "";
+                                                     MensajesGlobal.setMensaje_global("El metodo " + nombre_funcion + " no es un tipo valido de funcion. ", nr_linea);
+                                                     fallo = true;
+                                                     
+                                                  }else{
+                                                      
+                                                        barrido_lineas=true;
 
-                                                      if (obj_func.EvaluarPalabraExiste(linea_aux, Formatos.funcion_fin)) {
-                                                          linea_max = lineaCodigo2.getLinea();
-                                                      }else{
-                                                          Object[] resultado2 = obj_func.evaluar_metodo(linea_aux,nr_linea_aux,0);
-                                                          if((boolean) resultado2[0] == false && (int) resultado2[1] == 1){
-                                                              break;
-                                                          }else if((boolean) resultado2[0] == true){
-                                                              fallo = true;
-                                                              break;
-                                                          }
-                                                      } 
-                                                     }
-                                                  }  
-                                                  
+                                                        for (LineaCodigo lineaCodigo2 : array_2) {
+
+                                                          if(lineaCodigo2.getLinea() > lineaCodigo.getLinea()){
+
+                                                            String linea_aux    = lineaCodigo2.getCodigo();
+                                                            String nr_linea_aux = lineaCodigo2.getLinea() + "";
+
+                                                            if (obj_func.EvaluarPalabraExiste(linea_aux, Formatos.funcion_fin)) {
+                                                                linea_max = lineaCodigo2.getLinea();
+                                                            }else{
+                                                                Object[] resultado2 = obj_func.evaluar_metodo(linea_aux,nr_linea_aux,0);
+                                                                if((boolean) resultado2[0] == false && (int) resultado2[1] == 1){
+                                                                    break;
+                                                                }else if((boolean) resultado2[0] == true){
+                                                                    fallo = true;
+                                                                    break;
+                                                                }
+                                                            } 
+                                                           }
+                                                        }  
+                                                   }
+
                                                   if( fallo ){
                                                      break;
                                                   }

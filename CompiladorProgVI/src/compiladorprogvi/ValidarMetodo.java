@@ -20,8 +20,7 @@ public class ValidarMetodo {
         ValidarFor obj_validar_for = new ValidarFor();
         
         boolean romper = false;
-        boolean existe_variable = false;
-        boolean existe_metodo = false;
+    
         
         for (Metodo m : obj_clase.getMetodos()) {
             
@@ -41,9 +40,13 @@ public class ValidarMetodo {
             
             for ( LineaCodigo array1 : m.getLineas_codigo() ) {
                 
+                
+                
                String linea_de_codigo = array1.getCodigo();
                
                boolean metodo = false;
+               boolean existe_variable = false;
+               boolean existe_metodo = false;
                 
                if( obj_funcGenerales.EvaluarPalabraExiste(linea_de_codigo, Formatos.ind_funcion_inicio) && 
                    obj_funcGenerales.EvaluarPalabraExiste(linea_de_codigo, Formatos.ind_funcion_fin) &&
@@ -53,10 +56,6 @@ public class ValidarMetodo {
                    metodo = true;
                 }
                
-                if( array1.getLinea() == 8){
-                     System.err.println(" aplica "+true);
-                }
- 
                 if ( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_for )  && romper == false ){
                     if ( !obj_validar_for.validarFor( array1, obj_funcGenerales, variables )){
                         romper = true;
@@ -144,6 +143,25 @@ public class ValidarMetodo {
                 }else if (  (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.metodo_salida))&&
                             (!obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_in))           
                             && romper == false) {
+                    
+                    
+                } else if ((obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.asignacion)) && 
+                           (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_variable))
+                           && romper == false) {
+                   
+                    String nombre_variable = array1.getCodigo().substring(
+                                             0, 
+                                             array1.getCodigo().indexOf(Formatos.asignacion[0])-1);
+                    nombre_variable = nombre_variable.trim();
+                    
+                    
+                    existe_variable = validarNombreVariable( obj_clase.getVariables(), variables, nombre_variable, array1.getLinea()+"",1);
+                    
+                    if ( !existe_variable ){
+                        romper = true;
+                        break;
+                    } 
+                    
                     
                     
                 }
