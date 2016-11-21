@@ -75,7 +75,7 @@ public class Vista extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("class Numero begin \n   int a;\n   \n  void main() begin\n\n  out \"ingrese numero\";\n  in  a;\n  int b := sumaPares(a);\n  out \"La salida es \", b;\n\nend\n\n int sumaPares(int a) begin\n    int suma;\n    for( i := 1; i <= a; i++) begin\n       if(i %2 = 0 ) begin\n          suma := suma + i;\n      end \n   end\n end\nend");
+        jTextArea1.setText("class Numero begin \n   int a;\n   \n  void main() begin\n\n  out \"ingrese numero\";\n  in  a;\n  int b := sumaPares(a);\n  out \"La salida es \", b;\n\nend\n\n int sumaPares(int a) begin\n    int suma;\n    for( i := 1; i <= a; i ++) begin\n       if(i %2 = 0 ) begin\n          suma := suma + i;\n      end \n   end\n end\nend");
         jScrollPane1.setViewportView(jTextArea1);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 490, 290));
@@ -114,7 +114,7 @@ public class Vista extends javax.swing.JFrame {
                       }                      
                   } 
                   if(obj_func.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_if)){
-                      if(!obj_validar_if.validarIf(array1, obj_func)){
+                      if(!obj_validar_if.validarIf(array1, obj_func,variables)){
                           romper=true;
                           break;
                       }                      

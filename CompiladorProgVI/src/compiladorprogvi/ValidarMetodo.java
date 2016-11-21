@@ -44,8 +44,8 @@ public class ValidarMetodo {
                         }
                     }
                 } else if( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_if )){
-                    if ( !obj_validar_if.validarIf( array1, obj_funcGenerales )){
-                        romper = true;
+                    if ( !obj_validar_if.validarIf( array1, obj_funcGenerales,null )){//PUSE NULL PARA QUE NO SACARA ERROR
+                        romper = true;                                                //DEBE RECIBIR UN ARRAY DE VARIABLES      
                         break;
                     } else {
                         for ( LineaCodigo arrayLineaCodigo : m.getLineas_codigo() ){
