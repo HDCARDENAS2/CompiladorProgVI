@@ -18,6 +18,7 @@ public class ValidarMetodo {
         FuncionesGenerales obj_funcGenerales = new FuncionesGenerales();
         ValidarIf obj_validar_if = new ValidarIf();
         ValidarFor obj_validar_for = new ValidarFor();
+        Semantica obj_sem=new Semantica();
         
         boolean romper = false;
     
@@ -169,12 +170,11 @@ public class ValidarMetodo {
                                              array1.getCodigo().indexOf(Formatos.ind_variable[0])
                                              );
                         asignacion = asignacion.trim();
-                        /* //funcion wilmer de validar operador
-                        if(!){
+                        /* //funcion wilmer de validar operador*/
+                        if(!obj_sem.valOperaNum2(asignacion, "0", variables)){
                             romper = true;
                             break;
                         }
-                        */
                     }
                     
                     

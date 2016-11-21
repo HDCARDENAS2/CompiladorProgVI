@@ -290,7 +290,62 @@ public class Semantica {
                 }                
             }
         }else{
-            MensajesGlobal.setMensaje_global("la operación es incorrecta", linea);
+            MensajesGlobal.setMensaje_global("la operación ("+this.operacion+") es incorrecta", linea);
+            salida = false;
+        }
+        return salida;
+    }
+    
+    public boolean valOperaNum2(String oper, String linea, ArrayList<Variable> variables){
+        boolean salida = false;
+        int pos = -1;
+        String[] pal;  
+        
+        this.operacion = oper.trim();            
+        pal = this.operacion.split(" ");
+        
+        if ((pal.length % 2) != 0){            
+            for (String palabra : pal) {
+                pos ++;
+                if ((pos % 2) == 0){
+                    if (isNumero(palabra)){
+                        MensajesGlobal.setMensaje_global(null, null);
+                        salida = true;
+                    }else{
+                        for (Variable variable : variables) {
+                            if(variable.getNombre().equals(palabra)){
+                                if (variable.getTipo().equals("INT") || variable.getTipo().equals("DECIMAL")){
+                                    salida = true;
+                                    MensajesGlobal.setMensaje_global(null, null);
+                                    break;
+                                }else{
+                                    MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es numerica.", linea);
+                                    salida = false;
+                                }
+                            }else{
+                                MensajesGlobal.setMensaje_global("La variable "+palabra+" no está definida.", linea);
+                                salida = false;
+                            }
+                        }
+                    }
+                }else{
+                    for (String operador: Formatos.operadores){
+                            if (operador.equals(palabra)){
+                                salida = true;
+                                MensajesGlobal.setMensaje_global(null, null);
+                                break;
+                            }else{
+                                MensajesGlobal.setMensaje_global("El operador "+palabra+" no es valido.", linea);
+                                salida = false;
+                            }
+                        }
+                    if (salida == false){
+                        break;
+                    }
+                }                
+            }
+        }else{
+            MensajesGlobal.setMensaje_global("la operación ("+this.operacion+") es incorrecta", linea);
             salida = false;
         }
         return salida;
