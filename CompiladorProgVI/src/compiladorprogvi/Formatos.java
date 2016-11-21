@@ -27,6 +27,6 @@ public class Formatos {
     public static String[] metodo_salida = {"OUT"};   
     public static String[] ind_if  = {"IF"};  
     public static String[] ind_in  = {"IN"};  
-    
+    public static String[] borrado_not  = {"NOT"}; 
     
 }
