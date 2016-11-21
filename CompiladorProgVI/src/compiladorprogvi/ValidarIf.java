@@ -18,8 +18,7 @@ public class ValidarIf {
         ultimo=resultado.length();
         
         if (obj.validarParentesis(resultado)){
-            ArrayList<String> vector=new ArrayList<String>();
-            
+            ArrayList<String> vector=new ArrayList<String>();            
             nuevaCadena=resultado.substring(1,ultimo-1).trim();
             nuevaCadena=nuevaCadena.replace("AND",";");
             nuevaCadena=nuevaCadena.replace("OR",";");   
