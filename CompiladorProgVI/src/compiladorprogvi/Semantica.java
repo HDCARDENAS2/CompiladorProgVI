@@ -62,7 +62,6 @@ public class Semantica {
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
                         salida = false;
-                        break;
                     }
                 }
                 
