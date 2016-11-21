@@ -163,7 +163,19 @@ public class ValidarMetodo {
                     if ( !existe_variable ){
                         romper = true;
                         break;
-                    } 
+                    }else{
+                       String asignacion = array1.getCodigo().substring(
+                                             array1.getCodigo().indexOf(Formatos.asignacion[0])+2, 
+                                             array1.getCodigo().indexOf(Formatos.ind_variable[0])
+                                             );
+                        asignacion = asignacion.trim();
+                        /* //funcion wilmer de validar operador
+                        if(!){
+                            romper = true;
+                            break;
+                        }
+                        */
+                    }
                     
                     
                     
