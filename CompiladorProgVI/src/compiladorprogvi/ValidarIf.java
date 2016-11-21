@@ -23,27 +23,31 @@ public class ValidarIf {
             nuevaCadena=nuevaCadena.replace("AND",";");
             nuevaCadena=nuevaCadena.replace("OR",";");   
             nuevaCadena=nuevaCadena.replace("NOT",";");
-            
-            vector=obj.Split_string(nuevaCadena.trim(),";");//
+            ultimo=nuevaCadena.length();
             boolean nomensaje = true;
-            salida=true;            
-            if((vector.size()==1)||(vector.size()%2==0)){                
-                for (String vector1 : vector) {                      
-                    if (vector1.equals(" ")||vector1.equals("")){                        
-                        salida=false;
-                    }else{                        
-                        if(obj_sem.valSemIf(vector1,objeto.getLinea()+"",variables)){
-                           salida=true; 
-                        }else{
-                            salida=false;
-                            nomensaje = false;
-                            break;
-                        }
-                    }                   
-               } 
-            }else{               
-                salida=false; 
-            }
+            if (!(nuevaCadena.charAt(ultimo-1)+"").equals(";")){
+                 vector=obj.Split_string(nuevaCadena.trim(),";");//
+                    
+                    salida=true;            
+                    if((vector.size()==1)||(vector.size()%2==0)){                
+                        for (String vector1 : vector) {                      
+                            if (vector1.equals(" ")||vector1.equals("")){                        
+                                salida=false;
+                            }else{                        
+                                if(obj_sem.valSemIf(vector1,objeto.getLinea()+"",variables)){
+                                   salida=true; 
+                                }else{
+                                    salida=false;
+                                    nomensaje = false;
+                                    break;
+                                }
+                            }                   
+                       } 
+                    }else{               
+                        salida=false; 
+                    }//aqui
+            }else { salida=false;}
+                   
              if (!salida && nomensaje) {
                 MensajesGlobal.setMensaje_global("Faltan parametros en IF", objeto.getLinea()+"");
             }    
