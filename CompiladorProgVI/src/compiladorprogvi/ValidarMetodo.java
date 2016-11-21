@@ -46,28 +46,48 @@ public class ValidarMetodo {
                         romper = true;
                         break;
                     } else {
+                        
+                        boolean encontro = false;
+                        
                         for ( LineaCodigo arrayLineaCodigo : m.getLineas_codigo() ){
                             if ( arrayLineaCodigo.getLinea() > array1.getLinea() ){
-                                if ( !obj_funcGenerales.EvaluarPalabraExiste( arrayLineaCodigo.getCodigo(), Formatos.funcion_fin ) ){
-                                    romper = true;
-                                    break;
-                                }
+                               if ( obj_funcGenerales.EvaluarPalabraExiste( arrayLineaCodigo.getCodigo(), Formatos.funcion_fin ) ){
+                                   encontro = true;
+                                   break;  
+                               } 
                             }
                         }
+                    
+                        if(! encontro ){
+                             MensajesGlobal.setMensaje_global("END del FOR no encotrado ", array1.getLinea()+"");
+                             romper = true; 
+                             break;
+                        }
+  
                     }
                 } else if( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_if ) && romper == false){
-                    if ( !obj_validar_if.validarIf( array1, obj_funcGenerales,null )){//PUSE NULL PARA QUE NO SACARA ERROR
+                    if ( !obj_validar_if.validarIf( array1, obj_funcGenerales,variables )){//PUSE NULL PARA QUE NO SACARA ERROR
                         romper = true;                                                //DEBE RECIBIR UN ARRAY DE VARIABLES      
                         break;
                     } else {
+                        
+                        boolean encontro = false;
+                        
                         for ( LineaCodigo arrayLineaCodigo : m.getLineas_codigo() ){
                             if ( arrayLineaCodigo.getLinea() > array1.getLinea() ){
-                                if ( !obj_funcGenerales.EvaluarPalabraExiste( arrayLineaCodigo.getCodigo(), Formatos.funcion_fin ) ){
-                                    romper = true;
+                                if ( obj_funcGenerales.EvaluarPalabraExiste( arrayLineaCodigo.getCodigo(), Formatos.funcion_fin ) ){
+                                    encontro = true;
                                     break;
                                 }
                             }
                         }
+                        
+                        if(! encontro ){
+                             MensajesGlobal.setMensaje_global("END del IF no encotrado ", array1.getLinea()+"");
+                             romper = true; 
+                             break;
+                        }
+                        
                     }
                 } else if ((obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.tipo_variables)) && 
                            (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_variable))
