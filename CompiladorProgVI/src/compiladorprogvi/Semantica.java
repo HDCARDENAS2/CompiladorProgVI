@@ -22,91 +22,33 @@ public class Semantica {
         this.operacion = oper.trim();            
         this.palabras = this.operacion.split(" ");
         
-        
-        if (this.palabras[1].equals(":=")){
-        
-            boolean otro_mensaje = false;
-           
-            for (Variable variable : variables) {
-                if(variable.getNombre().equals(this.palabras[0])){
-                    if (variable.getTipo().equals("INT")){
-                        salida = true;
-                        MensajesGlobal.setMensaje_global(null, null);
-                    }else{
-                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
-                        salida = false;
-                        otro_mensaje = true;
-                    }
-                    break;
-                }else{
-                    salida = false; 
-                }
-            }
-            
-            if(!salida && !otro_mensaje){
-                MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
-                return false;
-            }
-            
-            if (salida){
+        if (this.palabras.length > 1){
+            if (this.palabras[1].equals(":=") && this.palabras.length == 3){
+
+                boolean otro_mensaje = false;
+
                 for (Variable variable : variables) {
-                    if(variable.getNombre().equals(this.palabras[2])){
+                    if(variable.getNombre().equals(this.palabras[0])){
                         if (variable.getTipo().equals("INT")){
                             salida = true;
                             MensajesGlobal.setMensaje_global(null, null);
                         }else{
                             MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                             salida = false;
+                            otro_mensaje = true;
                         }
                         break;
                     }else{
-                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
-                        salida = false;
+                        salida = false; 
                     }
                 }
-                
-                if (salida == false){
-                     try {
-                            int x = Integer.parseInt(this.palabras[2]);
-                            salida = true;
-                            MensajesGlobal.setMensaje_global(null, null);
-                         } 
-                     catch (Exception e) {
-                            MensajesGlobal.setMensaje_global("El parametro no es entero", linea);
-                            salida = false;
-                        }
-                }
-            }
-            
-        }else if (this.palabras[1].equals("=") || 
-                  this.palabras[1].equals("<") ||
-                  this.palabras[1].equals(">") ||
-                  this.palabras[1].equals("<=") ||
-                  this.palabras[1].equals(">=")
-                 ){
-            
-            for (Variable variable : variables) {
-                if(variable.getNombre().equals(this.palabras[0])){
-                    if (variable.getTipo().equals("INT")){
-                        salida = true;
-                        MensajesGlobal.setMensaje_global(null, null);
-                    }else{
-                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
-                        salida = false;
-                    }
-                    break;
-                }else{
+
+                if(!salida && !otro_mensaje){
                     MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
-                    salida = false;
+                    return false;
                 }
-            }
-            
-            if (salida){
-                
-                if(isNumero(this.palabras[2])){
-                    salida = true;
-                }else{     
-                
+
+                if (salida){
                     for (Variable variable : variables) {
                         if(variable.getNombre().equals(this.palabras[2])){
                             if (variable.getTipo().equals("INT")){
@@ -122,34 +64,97 @@ public class Semantica {
                             salida = false;
                         }
                     }
+
+                    if (salida == false){
+                         try {
+                                int x = Integer.parseInt(this.palabras[2]);
+                                salida = true;
+                                MensajesGlobal.setMensaje_global(null, null);
+                             } 
+                         catch (Exception e) {
+                                MensajesGlobal.setMensaje_global("El parametro no es entero", linea);
+                                salida = false;
+                            }
+                    }
                 }
-            }
-            
-        }else if (this.palabras[1].equals("++") ||
-                  this.palabras[1].equals("--")
-                 ){
-            
-            for (Variable variable : variables) {
-                if(variable.getNombre().equals(this.palabras[0])){
-                    if (variable.getTipo().equals("INT")){
-                        salida = true;
-                        MensajesGlobal.setMensaje_global(null, null);
+
+            }else if ((this.palabras[1].equals("=") || 
+                      this.palabras[1].equals("<") ||
+                      this.palabras[1].equals(">") ||
+                      this.palabras[1].equals("<=") ||
+                      this.palabras[1].equals(">=")) &&
+                      (this.palabras.length == 3)
+                     ){
+
+                for (Variable variable : variables) {
+                    if(variable.getNombre().equals(this.palabras[0])){
+                        if (variable.getTipo().equals("INT")){
+                            salida = true;
+                            MensajesGlobal.setMensaje_global(null, null);
+                        }else{
+                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
+                            salida = false;
+                        }
+                        break;
                     }else{
-                        MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
+                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
                         salida = false;
                     }
-                    break;
-                }else{
-                    MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
-                    salida = false;
                 }
+
+                if (salida){
+
+                    if(isNumero(this.palabras[2])){
+                        salida = true;
+                    }else{     
+
+                        for (Variable variable : variables) {
+                            if(variable.getNombre().equals(this.palabras[2])){
+                                if (variable.getTipo().equals("INT")){
+                                    salida = true;
+                                    MensajesGlobal.setMensaje_global(null, null);
+                                }else{
+                                    MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
+                                    salida = false;
+                                }
+                                break;
+                            }else{
+                                MensajesGlobal.setMensaje_global("La variable "+this.palabras[2]+" no está definida.", linea);
+                                salida = false;
+                            }
+                        }
+                    }
+                }
+
+            }else if ((this.palabras[1].equals("++") ||
+                       this.palabras[1].equals("--")) && 
+                      (this.palabras.length == 2)
+                     ){
+
+                for (Variable variable : variables) {
+                    if(variable.getNombre().equals(this.palabras[0])){
+                        if (variable.getTipo().equals("INT")){
+                            salida = true;
+                            MensajesGlobal.setMensaje_global(null, null);
+                        }else{
+                            MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
+                            salida = false;
+                        }
+                        break;
+                    }else{
+                        MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
+                        salida = false;
+                    }
+                }
+
+            }else{
+                MensajesGlobal.setMensaje_global("La definición ("+this.operacion+") es incorrecta.", linea);
+                salida = false;
             }
-            
         }else{
-            MensajesGlobal.setMensaje_global("El operador "+this.palabras[1]+" no es válido.", linea);
+            MensajesGlobal.setMensaje_global("La definición ("+this.operacion+") es incorrecta.", linea);
             salida = false;
         }
-        
         return salida;
     }
     
@@ -265,7 +270,6 @@ public class Semantica {
                             }else{
                                 MensajesGlobal.setMensaje_global("La variable "+palabra+" no está definida.", linea);
                                 salida = false;
-                                break;
                             }
                         }
                     }
