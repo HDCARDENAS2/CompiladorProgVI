@@ -29,7 +29,7 @@ public class ValidarIf {
                  vector=obj.Split_string(nuevaCadena.trim(),";");//
                     
                     salida=true;            
-                    if((vector.size()==1)||(vector.size()%2==0)){                
+                    //if((vector.size()==1)||(vector.size()%2==0)){                
                         for (String vector1 : vector) {                      
                             if (vector1.equals(" ")||vector1.equals("")){                        
                                 salida=false;
@@ -43,9 +43,9 @@ public class ValidarIf {
                                 }
                             }                   
                        } 
-                    }else{               
-                        salida=false; 
-                    }//aqui
+                    //}else{               
+                    //    salida=false; 
+                    //}//aqui
             }else { salida=false;}
                    
              if (!salida && nomensaje) {
