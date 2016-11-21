@@ -225,8 +225,13 @@ public class FuncionesGenerales {
                            imprimir_linea("8",nr_linea,line_axx);
 
                            if(!EvaluarPalabraExiste(linea, Formatos.ind_if) || !EvaluarPalabraExiste(linea, Formatos.funcion_incio)){
-                              MensajesGlobal.setMensaje_global("Expresion incompleta E5.", nr_linea); 
-                              vectores[0] = true; 
+                             
+                               if(!EvaluarPalabraExiste(linea, Formatos.funcion_fin)){
+                                 MensajesGlobal.setMensaje_global("Expresion incompleta E5.", nr_linea); 
+                                 vectores[0] = true;    
+                               }
+                              
+                              
                            }
                            
                         }else{
@@ -294,7 +299,7 @@ public class FuncionesGenerales {
                        imprimir_linea("11",nr_linea,line_axx);
                        
                        if(!salto_linea(linea)){
-                         MensajesGlobal.setMensaje_global("Asignacion no reconocidad E12.", nr_linea); 
+                         MensajesGlobal.setMensaje_global("Expresión no reconocidad E12.", nr_linea); 
                          vectores[0] = true;
                        }  
                    }else{

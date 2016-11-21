@@ -94,6 +94,10 @@ public class Vista extends javax.swing.JFrame {
       if(clase_generada != null){
           
           
+         /* for (Metodo object : clase_generada.getMetodos()) {
+              System.err.println(object.getLineas_codigo());
+          }*/
+          
         /*
           for (Variable v : clase_generada.getVariables()) {
               System.out.println(v.toString());

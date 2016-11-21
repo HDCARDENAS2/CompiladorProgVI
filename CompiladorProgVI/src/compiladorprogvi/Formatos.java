@@ -8,7 +8,7 @@ package compiladorprogvi;
 public class Formatos {
     public static String indentificador = "[A-Z]+";
     public static String numero = "[0-9]+";   
-    public static String[] palabrasReservadas = {"INT","DECIMAL","CHAR","STRING","BOOLEAN","VOID","IF","FOR","OUT","ELSE","IN"};  
+    public static String[] palabrasReservadas = {"INT","DECIMAL","CHAR","STRING","BOOLEAN","VOID","IF","FOR","OUT","ELSE","IN","END"};  
     public static String[] operadores = {"+","-","*","/","%","^"};
     public static String[] operadoresLogicos = {"<",">",">=","<=","=","AND","OR","NOT"};
     public static String[] asignacion = {":="};    

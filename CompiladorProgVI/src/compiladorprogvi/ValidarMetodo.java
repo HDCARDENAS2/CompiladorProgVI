@@ -26,6 +26,9 @@ public class ValidarMetodo {
             
             ArrayList<Variable> variables = new ArrayList<Variable>();
             
+            ArrayList<LineaCodigo> lista_aux =( ArrayList<LineaCodigo>) m.getLineas_codigo().clone();
+            
+            
             if(m.getParametro() != "" && m.getParametro().length() > 1){
                 
                 String tipo_vr_pr  = obj_funcGenerales.RetornarPalabraExiste(m.getParametro(), Formatos.tipo_variables);
@@ -33,7 +36,6 @@ public class ValidarMetodo {
                                                                       tipo_vr_pr,
                                                                       null);
                 variable_pr = variable_pr.trim();
-                
                 variables.add(new Variable(tipo_vr_pr, variable_pr));
                 
             }
@@ -64,10 +66,11 @@ public class ValidarMetodo {
                         
                         boolean encontro = false;
                         
-                        for ( LineaCodigo arrayLineaCodigo : m.getLineas_codigo() ){
+                        for ( LineaCodigo arrayLineaCodigo : lista_aux ){
                             if ( arrayLineaCodigo.getLinea() > array1.getLinea() ){
                                if ( obj_funcGenerales.EvaluarPalabraExiste( arrayLineaCodigo.getCodigo(), Formatos.funcion_fin ) ){
                                    encontro = true;
+                                   lista_aux.remove(arrayLineaCodigo);
                                    break;  
                                } 
                             }
@@ -78,7 +81,6 @@ public class ValidarMetodo {
                              romper = true; 
                              break;
                         }
-  
                     }
                 } else if( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_if ) && romper == false){
                     if ( !obj_validar_if.validarIf( array1, obj_funcGenerales,variables )){//PUSE NULL PARA QUE NO SACARA ERROR
@@ -88,10 +90,11 @@ public class ValidarMetodo {
                         
                         boolean encontro = false;
                         
-                        for ( LineaCodigo arrayLineaCodigo : m.getLineas_codigo() ){
+                        for ( LineaCodigo arrayLineaCodigo : lista_aux ){
                             if ( arrayLineaCodigo.getLinea() > array1.getLinea() ){
                                 if ( obj_funcGenerales.EvaluarPalabraExiste( arrayLineaCodigo.getCodigo(), Formatos.funcion_fin ) ){
                                     encontro = true;
+                                    lista_aux.remove(arrayLineaCodigo);
                                     break;
                                 }
                             }

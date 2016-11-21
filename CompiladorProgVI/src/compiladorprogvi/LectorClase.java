@@ -81,6 +81,9 @@ public class LectorClase {
                             boolean barrido_lineas = false;
                             boolean fallo = false;
     
+                            int for_if_count = 0;
+                            int end_count    = 0;
+                            
                             for (LineaCodigo lineaCodigo : array) {
 
                                 String linea = lineaCodigo.getCodigo();
@@ -89,15 +92,46 @@ public class LectorClase {
                                 if( lineaCodigo.getLinea() > linea_max && linea_max != -1){
                                     barrido_lineas = false;
                                     lineas_codigo_metodo = new  ArrayList<> ();
+                                    
+                                    if(!(end_count == for_if_count) ){
+                                       MensajesGlobal.setMensaje_global("El metodo " + nombre_funcion + "  no esta cerrando correctamente cerrado.", nr_linea);
+                                       fallo = true;
+                                       break;
+                                    }
+                                    for_if_count = 0;
+                                    end_count    = 0;
+                                    linea_max = -1;
                                 }
 
                                 if (barrido_lineas == true ) {
-  
+                                    
+                                    if(linea_max == -1){
+                                       MensajesGlobal.setMensaje_global("El metodo " + nombre_funcion + " no esta cerrado correctamente.", nr_linea);
+                                       fallo = true;
+                                       break;
+                                    }
+                                    
                                     if(lineaCodigo.getLinea() == linea_max){
                                         metodos.add(new Metodo(nombre_funcion, tipo_funcion, parametros, lineas_codigo_metodo));
                                         barrido_lineas = false;
                                     }else{
-                                        lineas_codigo_metodo.add(lineaCodigo);
+ 
+                                      if(!obj_func.salto_linea(linea)){ 
+
+                                       if(obj_func.EvaluarPalabraExiste(linea, Formatos.ind_if)
+                                          ||    
+                                          obj_func.EvaluarPalabraExiste(linea, Formatos.ind_for) 
+                                               ){
+                                           for_if_count++;
+                                       }
+                                       
+                                        if(obj_func.EvaluarPalabraExiste(linea, Formatos.funcion_fin)){
+                                            end_count++;
+                                        }
+                                        
+                                         lineas_codigo_metodo.add(lineaCodigo);  
+                                       }
+                                       
                                     }
 
                                 } else if (barrido_lineas == false) {
@@ -219,7 +253,7 @@ public class LectorClase {
                     MensajesGlobal.setMensaje_global("No hay una funcion end para cerrar la clase.", null);
                 }
             } else {
-                MensajesGlobal.setMensaje_global("No hay una clase a evaluar", null);
+                MensajesGlobal.setMensaje_global("No hay una clase validad a compilar", null);
             }
 
         } else {
