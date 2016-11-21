@@ -24,7 +24,9 @@ public class Semantica {
         
         
         if (this.palabras[1].equals(":=")){
-            
+        
+            boolean otro_mensaje = false;
+           
             for (Variable variable : variables) {
                 if(variable.getNombre().equals(this.palabras[0])){
                     if (variable.getTipo().equals("INT")){
@@ -33,13 +35,17 @@ public class Semantica {
                     }else{
                         MensajesGlobal.setMensaje_global("La variable "+variable.getNombre()+" no es entera.", linea);
                         salida = false;
+                        otro_mensaje = true;
                     }
                     break;
                 }else{
-                    MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
-                    salida = false;
-                    break;
+                    salida = false; 
                 }
+            }
+            
+            if(!salida && !otro_mensaje){
+                MensajesGlobal.setMensaje_global("La variable "+this.palabras[0]+" no está definida.", linea);
+                return false;
             }
             
             if (salida){

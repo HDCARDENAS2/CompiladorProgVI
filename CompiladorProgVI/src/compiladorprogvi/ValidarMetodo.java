@@ -27,9 +27,21 @@ public class ValidarMetodo {
             
             ArrayList<Variable> variables = new ArrayList<Variable>();
             
+            if(m.getParametro() != "" && m.getParametro().length() > 1){
+                
+                String tipo_vr_pr  = obj_funcGenerales.RetornarPalabraExiste(m.getParametro(), Formatos.tipo_variables);
+                String variable_pr = obj_funcGenerales.quitar_palabras(m.getParametro(), 
+                                                                      tipo_vr_pr,
+                                                                      null);
+                variable_pr = variable_pr.trim();
+                
+                variables.add(new Variable(tipo_vr_pr, variable_pr));
+                
+            }
+            
             for ( LineaCodigo array1 : m.getLineas_codigo() ) {
                 
-                if ( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_for )){
+                if ( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_for )  && romper == false ){
                     if ( !obj_validar_for.validarFor( array1, obj_funcGenerales, variables )){
                         romper = true;
                         break;
@@ -43,7 +55,7 @@ public class ValidarMetodo {
                             }
                         }
                     }
-                } else if( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_if )){
+                } else if( obj_funcGenerales.EvaluarPalabraExiste( array1.getCodigo(), Formatos.ind_if ) && romper == false){
                     if ( !obj_validar_if.validarIf( array1, obj_funcGenerales,null )){//PUSE NULL PARA QUE NO SACARA ERROR
                         romper = true;                                                //DEBE RECIBIR UN ARRAY DE VARIABLES      
                         break;
@@ -58,7 +70,8 @@ public class ValidarMetodo {
                         }
                     }
                 } else if ((obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.tipo_variables)) && 
-                           (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_variable))) {
+                           (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_variable))
+                           && romper == false) {
                     
                     String variable = obj_funcGenerales.quitar_palabras(array1.getCodigo(), null, new Object[]{Formatos.tipo_variables,Formatos.ind_variable});
                     variable = variable.trim();
@@ -70,32 +83,62 @@ public class ValidarMetodo {
                         variable = variable.replaceAll(" ", "");
                     }
                 
-                    existe_variable = validarNombreVariable( obj_clase.getVariables(), variables, variable, array1.getLinea()+"");
+                    existe_variable = validarNombreVariable( obj_clase.getVariables(), variables, variable, array1.getLinea()+"",0);
                     
                     if ( existe_variable ){
                         romper = true;
+                        break;
                     } else {
-                        romper = false;
                         variables.add(new Variable(tipo_variable, variable));
                     }
+                    
                 } else if ((obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_funcion_inicio)) && 
                            (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_funcion_fin)) &&
-                           (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_variable)) ) {
+                           (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_variable)) 
+                           && romper == false) {
                     
-                    if(obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.asignacion)){
-                        String nombre_funcion = array1.getCodigo().substring(
+                    String nombre_funcion = array1.getCodigo().substring(
                                 array1.getCodigo().indexOf(Formatos.asignacion[0]), 
                                 array1.getCodigo().indexOf(Formatos.ind_funcion_inicio[0]) );
                         
-                        existe_metodo = validarNombreMetodo( obj_clase.getMetodos(), nombre_funcion, array1.getLinea()+"" );
-                        
-                        if ( existe_metodo ){
-                            romper = true;
-                        } else {
-                            romper = false;
-                        }
-                    }
+                    existe_metodo = validarNombreMetodo( obj_clase.getMetodos(), nombre_funcion, array1.getLinea()+"" );
                     
+                    if ( !existe_metodo ){
+                            romper = true;
+                            break;
+                    }else{
+                       
+                         String variable = array1.getCodigo().substring(
+                                 array1.getCodigo().indexOf(Formatos.ind_funcion_inicio[0]), 
+                                 array1.getCodigo().indexOf(Formatos.ind_funcion_fin[0]) );
+                      
+                         existe_variable = validarNombreVariable( obj_clase.getVariables(), variables, variable, array1.getLinea()+"",1);
+                    
+                        if ( !existe_variable ){
+                           romper = true;
+                           break;
+                        } 
+               
+                    }
+ 
+                }else if (  (!obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.metodo_salida))&&
+                            (obj_funcGenerales.EvaluarPalabraExiste(array1.getCodigo(), Formatos.ind_in))           
+                            && romper == false) {
+                    
+                    String variable = obj_funcGenerales.quitar_palabras(array1.getCodigo(), null, new Object[]{Formatos.ind_in,Formatos.ind_variable});
+                    variable = variable.trim();
+                    
+                    existe_variable = validarNombreVariable( obj_clase.getVariables(), variables, variable, array1.getLinea()+"",1);
+                    
+                    if ( !existe_variable ){
+                        romper = true;
+                        break;
+                    } 
+                    
+                }
+     
+                 if( romper ){
+                  break;
                 }
             }
             
@@ -111,27 +154,33 @@ public class ValidarMetodo {
         }
     }
     
-    public boolean validarNombreVariable ( ArrayList<Variable> variableGlobal, ArrayList<Variable> variableLocal, String variableEvaluar, String num_linea ){
+    public boolean validarNombreVariable ( ArrayList<Variable> variableGlobal, ArrayList<Variable> variableLocal, String variableEvaluar, String num_linea, int no_existe ){
         boolean romper = false;
+        
         for ( int i = 0; i < variableGlobal.size(); i++) {
-            if ((variableGlobal.get(i).equals(variableEvaluar)) ){
+            if (variableGlobal.get(i).getNombre().equals(variableEvaluar)){
                 romper = true;
                 break;
             }
         }
         
         for ( int i = 0; i < variableLocal.size(); i++) {
-            if ( (variableLocal.get(i).equals(variableEvaluar)) ){
+            if ( variableLocal.get(i).getNombre().equals(variableEvaluar)){
                 romper = true;
                 break;
             }
         }
         
         if ( romper ){
-            MensajesGlobal.setMensaje_global("La variable "+variableEvaluar+" ya se encuentra declarada.", num_linea);
-            return false;
-        } else {
+            if(no_existe == 0){
+                MensajesGlobal.setMensaje_global("La variable "+variableEvaluar+" ya se encuentra declarada.", num_linea); 
+            }
             return true;
+        } else {
+            if(no_existe == 1){
+                MensajesGlobal.setMensaje_global("La variable "+variableEvaluar+" no se encuentra declarada.", num_linea);
+            }
+            return false;
         }
     }
     
@@ -139,7 +188,7 @@ public class ValidarMetodo {
         boolean romper = false;
         
         for ( int i = 0; i < metodoGlobal.size(); i++) {
-            if ((metodoGlobal.get(i).equals(metodoEvaluar)) ){
+            if ( metodoGlobal.get(i).getNombre().equals(metodoEvaluar) ){
                 romper = true;
                 break;
             }
