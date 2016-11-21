@@ -171,7 +171,7 @@ public class ValidarMetodo {
                                              );
                         asignacion = asignacion.trim();
                         /* //funcion wilmer de validar operador*/
-                        if(!obj_sem.valOperaNum2(asignacion, "0", variables)){
+                        if(!obj_sem.valOperaNum2(asignacion, array1.getLinea()+"", variables)){
                             romper = true;
                             break;
                         }
