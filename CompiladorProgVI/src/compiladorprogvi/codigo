@@ -13,7 +13,7 @@ end
  int sumaPares(int a) begin
     int suma;
     for( i := 1; i <= a; i ++) begin
-       if((i % 2 = 0) AND (i % 2 = 0)) begin
+       if( i % 2 = 0 AND i % 2 = 0) begin
           suma := suma + i;
       end 
    end
